@@ -3,6 +3,10 @@ security:
     client:
       client-id: id # client_id used when getting a token
       client-secret: secret # client_secret used when getting a token
+      scope: # Allowed scopes
+        - foo
+        - bar
+        - baz
     authorization:
       jwt:
         key-store: classpath:/keystore.jks # Contains the RSA key
