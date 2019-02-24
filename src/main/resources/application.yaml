@@ -1,12 +1,12 @@
 security:
   oauth2:
     client:
-      client-id: id
-      client-secret: secret
+      client-id: id # client_id used when getting a token
+      client-secret: secret # client_secret used when getting a token
     authorization:
       jwt:
-        key-store: classpath:/keystore.jks
-        key-alias: jwt
+        key-store: classpath:/keystore.jks # Contains the RSA key
+        key-alias: jwt # Name of the RSA key
         key-store-password: ""
         key-password: ""
-      token-key-access: "permitAll()"
+      token-key-access: "permitAll()" # Enables the /oauth/token_key endpoint
