@@ -1,0 +1,12 @@
+security:
+  oauth2:
+    client:
+      client-id: id
+      client-secret: secret
+    authorization:
+      jwt:
+        key-store: classpath:/keystore.jks
+        key-alias: jwt
+        key-store-password: ""
+        key-password: ""
+      token-key-access: "permitAll()"
