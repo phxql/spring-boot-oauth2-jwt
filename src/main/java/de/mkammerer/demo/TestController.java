@@ -12,9 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestController.class);
 
+    @GetMapping("/unprotected")
+    public String unprotected() {
+        return "unprotected";
+    }
+
     @GetMapping("/user")
     public String user(OAuth2Authentication principal) {
         LOGGER.info("/test/user from {}", principal);
         return "Hello " + principal.getName();
+    }
+
+    @GetMapping("/denied")
+    public String denied() {
+        return "You should never be able to call this method!";
     }
 }
