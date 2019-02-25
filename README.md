@@ -1,10 +1,13 @@
 # Example project for OAuth2 with JWT tokens in Spring Boot 
 
-This applicaton showcases a Spring Boot Service which is able to:
+This applicaton showcases a Spring Boot Service:
 
-* issuing OAuth2 tokens, encoded in JWT format, using RSA signing
-* verifying these tokens when protected endpoints are called
-* return the RSA public key to the client so that it can validate the issued tokens
+* issues OAuth2 tokens, encoded in JWT format, using RSA signing
+* verifies these tokens when protected endpoints are called
+* returns the RSA public key to the client so that it can validate the issued tokens
+* uses roles to protect endpoints, some endpoints are world-readable
+* implements a custom `UserDetailsService` for managing users
+* tests the whole Spring Security stuff in an integration test
 
 ## curls
 

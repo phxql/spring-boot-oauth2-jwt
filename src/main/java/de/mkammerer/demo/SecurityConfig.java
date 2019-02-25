@@ -4,13 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableResourceServer // Enables token verification
@@ -26,20 +25,20 @@ public class SecurityConfig extends ResourceServerConfigurerAdapter {
                 .anyRequest().denyAll(); // Block everything which is not whitelisted
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        // Uses BCrypt by default, but can also read other hashes
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
     @Bean // Uses the given users instead of letting Spring Security generate one
-    public UserDetailsService userDetailsService() {
-        UserDetails user1 = User.withDefaultPasswordEncoder()
-                .username("user1")
-                .password("password1")
-                .roles("USER")
-                .build();
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+        // We have implemented our own user service
+        UserService userService = new UserService(passwordEncoder);
 
-        UserDetails user2 = User.withDefaultPasswordEncoder()
-                .username("user2")
-                .password("password2")
-                .roles("USER")
-                .build();
+        userService.addUser("user1", "password1", "USER");
+        userService.addUser("user2", "password2", "USER");
 
-        return new InMemoryUserDetailsManager(user1, user2);
+        return userService;
     }
 }
